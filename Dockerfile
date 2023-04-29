@@ -1,4 +1,6 @@
-FROM debian:bullseye
+ARG base=debian:bullseye
+From ${base}
+ARG base
 
 RUN apt update; apt install -y git make curl gnupg2 bash-completion screen 
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
