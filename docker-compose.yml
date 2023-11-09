@@ -2,7 +2,7 @@ version: "3"
 
 services:
   nodered:
-    image: itaru2622/nodered:bullseye
+    image: itaru2622/nodered:bookworm
     container_name: nodered
     hostname: nodered
     environment:

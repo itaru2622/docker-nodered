@@ -1,18 +1,21 @@
-ARG base=debian:bullseye
+ARG base=debian:bookworm
 From ${base}
 ARG base
 
-RUN apt update; apt install -y git make curl gnupg2 bash-completion screen 
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-RUN apt install -y nodejs build-essential
-RUN npm install -g npm
-RUN npm install -g --unsafe-perm node-red
-RUN npm install -g openapi-red \
-                   node-red-nodegen node-red-contrib-web-of-things node-red-contrib-wot-discovery \
-                   node-red-contrib-noble-bluetooth
+ARG ver_node=18
 
-# RUN (cd /opt; git clone https://github.com/k-toumura/node-red-nodegen.git -b webofthings; cd /opt/node-red-nodegen; npm install -g )
-# RUN (cd /opt; git clone https://github.com/node-red/node-red-nodegen.git;                 cd /opt/node-red-nodegen; npm install -g )
+RUN apt update; apt install -y git make curl gnupg2 bash-completion screen vim
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | apt-key add - ;\
+    echo "deb https://deb.nodesource.com/node_${ver_node}.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list; \
+    apt update
+
+RUN apt install -y nodejs build-essential; \
+    npm install -g npm; \
+    npm install -g --unsafe-perm node-red; \
+    npm install -g openapi-red \
+                   node-red-nodegen node-red-contrib-web-of-things node-red-contrib-wot-discovery \
+                   node-red-contrib-noble-bluetooth \
+                   openapi-red
 
 EXPOSE 1880
 CMD node-red
